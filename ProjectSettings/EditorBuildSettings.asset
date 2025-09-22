@@ -6,14 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Lunar South.unity
+    path: Assets/_Scenes/Lunar South.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Habitats.unity
+    path: Assets/_Scenes/Habitats.unity
     guid: d64f84f40fdeddd4aac70d9960b0094b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Habitats/habitat_1.unity
     guid: 1a3fbdfa368abf14e911007425d73139
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_UseUCBPForAssetBundles: 0
