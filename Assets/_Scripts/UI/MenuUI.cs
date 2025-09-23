@@ -1,26 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-    [Header("UI references")] 
+    [Header("UI Panels")] 
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject inGameCanvas;
-    [SerializeField] private Button exploreButton;
     [SerializeField] private GameObject habitatSelectionPanel;
-    [SerializeField] private GameObject habitatQuantitySelectionPanel;
-    [SerializeField] private GameObject colonyScalingPanel;
-    [SerializeField] private Button applyScaleButton;
+    [SerializeField] private GameObject missionDataSelectionPanel;
     
-    [Header("Habitat Buttons")]
+    [Header("Buttons")]
     [SerializeField] private List<Button> habitatButtons;
-    [SerializeField] private List<Button> habitatQuantityButtons;
-
-    private readonly int[] _qtyMap = { 4, 6, 8 };
+    [SerializeField] private Button exploreButton;
+    [SerializeField] private Button applyHabitatSelectionButton;
+    [SerializeField] private Button applyMissionDataButton;
+    
+    [Header("Drop Downs")]
+    [SerializeField] private TMP_Dropdown colonyCrewDropDown;
+    [SerializeField] private TMP_Dropdown durationDropDown;
+    [SerializeField] private TMP_Dropdown locationDropDown;
+    
+    [Header("Other Scripts")]
+    public HabitatScaler habitatScaler;
 
     private void Awake()
     {
@@ -33,7 +39,7 @@ public class MenuUI : MonoBehaviour
         mainMenuCanvas.SetActive(true);
         exploreButton.gameObject.SetActive(true);
         habitatSelectionPanel.SetActive(false);
-        habitatQuantitySelectionPanel.SetActive(false);
+        missionDataSelectionPanel.SetActive(false);
         inGameCanvas.SetActive(false);
     }
 
@@ -43,9 +49,18 @@ public class MenuUI : MonoBehaviour
         {
             exploreButton.gameObject.SetActive(false);
             habitatSelectionPanel.SetActive(true);
+            GameManager.Instance.ToggleSurfaceCamera(false);
+            GameManager.Instance.ToggleHabitatViewCamera(true);
+        });
+
+        applyHabitatSelectionButton.onClick.AddListener(() =>
+        {
+            habitatSelectionPanel.SetActive(false);
+            missionDataSelectionPanel.SetActive(true);
         });
         
-        applyScaleButton.onClick.AddListener(ApplyScale);
+        //applyScaleButton.onClick.AddListener(ApplyScale);
+        applyMissionDataButton.onClick.AddListener(ApplyMissionData);
         
         for (int i = 0; i < habitatButtons.Count; i++)
         {
@@ -53,31 +68,57 @@ public class MenuUI : MonoBehaviour
             habitatButtons[i].onClick.AddListener(() => SelectHabitat(index));
         }
 
-        for (int i = 0; i < habitatQuantityButtons.Count && i < _qtyMap.Length; i++)
+        // for (int i = 0; i < habitatQuantityButtons.Count && i < _qtyMap.Length; i++)
+        // {
+        //     int q = _qtyMap[i];
+        //     habitatQuantityButtons[i].onClick.AddListener(() => SelectHabitatQuantity(q));
+        // }
+    }
+
+    public void ChangeColonyData()
+    {
+        Debug.Log(colonyCrewDropDown.value);
+        if (colonyCrewDropDown.value == 0)
         {
-            int q = _qtyMap[i];
-            habitatQuantityButtons[i].onClick.AddListener(() => SelectHabitatQuantity(q));
+            float scale = 1.2f;
+            habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
+            GameManager.Instance.missionCrewAmount = 4;
         }
+        else if (colonyCrewDropDown.value == 1)
+        {
+            float scale = 1.5f;
+            habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
+            GameManager.Instance.missionCrewAmount = 6;
+        }
+        else if (colonyCrewDropDown.value == 2)
+        {
+            float scale = 1.8f;
+            habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
+            GameManager.Instance.missionCrewAmount = 8;
+        }
+    }
+    
+    public void ChangeMissionDurationData()
+    {
+        Debug.Log(durationDropDown.options[durationDropDown.value].text);
+        GameManager.Instance.missionDuration = durationDropDown.options[durationDropDown.value].text;
+    }
+
+    public void ChangeLocationData()
+    {
+        GameManager.Instance.missionLocation = locationDropDown.options[locationDropDown.value].text;
     }
 
     private void SelectHabitat(int num)
     {
-        habitatSelectionPanel.SetActive(false);
-        habitatQuantitySelectionPanel.SetActive(true);
         GameManager.Instance.selectedHabitatNo = num;
-    }
-
-    private void SelectHabitatQuantity(int qty)
-    {
-        habitatQuantitySelectionPanel.SetActive(false);
-        mainMenuCanvas.SetActive(false);
-        inGameCanvas.SetActive(true);
-        GameManager.Instance.habitatQuantity = qty;
         GameManager.Instance.TriggerColony();
     }
 
-    private void ApplyScale()
+    private void ApplyMissionData()
     {
-        colonyScalingPanel.SetActive(false);
+        missionDataSelectionPanel.SetActive(false);
+        mainMenuCanvas.SetActive(false);
+        inGameCanvas.SetActive(true);
     }
 }

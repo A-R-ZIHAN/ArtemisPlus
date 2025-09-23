@@ -6,22 +6,20 @@ public class Colony : MonoBehaviour
 {
     [SerializeField] private List<Transform> habitatSpawnPoints;
     [SerializeField] private GameObject habitatParent;
+    [SerializeField] private int qty = 4;
     
     [Header("Colony Data")]
-    private int habitatQuantity;
     private GameObject habitatPrefab;
 
-    public void Initialize(int habitatQuantity, GameObject habitatPrefab)
+    public void Initialize(GameObject habitatPrefab)
     {
-        this.habitatQuantity = habitatQuantity;
         this.habitatPrefab = habitatPrefab;
-        
         PopulateColonyHabitat();
     }
 
     private void PopulateColonyHabitat()
     {
-        for (int i = 0; i < habitatQuantity; i++)
+        for (int i = 0; i < qty; i++)
         {
             GameObject habitat = Instantiate(habitatPrefab, habitatSpawnPoints[i].position, habitatSpawnPoints[i].rotation, transform);
             habitat.transform.SetParent(habitatParent.transform);
@@ -31,5 +29,14 @@ public class Colony : MonoBehaviour
     public void PopulateColonyPopulation()
     {
         
+    }
+
+    public void ReInitializeColonyhabitat(GameObject habitatPrefab)
+    {
+        for (int i = habitatParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(habitatParent.transform.GetChild(i).gameObject);
+        }
+        Initialize(habitatPrefab);
     }
 }
