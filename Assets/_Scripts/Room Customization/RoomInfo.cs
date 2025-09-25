@@ -5,13 +5,23 @@ using UnityEngine;
 public enum RoomType {
     None,
     CrewQuarters,
+    MedicalBay,
     Galley,
-    Storage,
-    LifeSupport,
-    Hygiene,
     Exercise,
-    Medical,
-    Corridor
+    Lab,
+    PowerStorage,
+    CommsHub,
+    RoverStorage,
+    RepairZone,
+    ExitAirlock,
+    Hygiene,
+    EmergencyLSS
+}
+
+public enum RoomRelation {
+    Good,
+    Risky,
+    Wrong
 }
 
 public class RoomInfo : MonoBehaviour {

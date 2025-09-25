@@ -28,6 +28,13 @@ public class MenuUI : MonoBehaviour
     [Header("Other Scripts")]
     public HabitatScaler habitatScaler;
 
+    [Header("Mission Data")] 
+    [SerializeField] private TMP_Text missionLocationText;
+    [SerializeField] private TMP_Text missionDurationText;
+    [SerializeField] private TMP_Text totalCrewAmountText;
+    [SerializeField] private TMP_Text totalHabitatText;
+    
+
     private void Awake()
     {
         Init();
@@ -120,5 +127,10 @@ public class MenuUI : MonoBehaviour
         missionDataSelectionPanel.SetActive(false);
         mainMenuCanvas.SetActive(false);
         inGameCanvas.SetActive(true);
+        
+        missionLocationText.text = "Mission Location : "+GameManager.Instance.missionLocation;
+        missionDurationText.text = "Mission Duration : "+GameManager.Instance.missionDuration;
+        totalCrewAmountText.text = "Total Crew : "+GameManager.Instance.missionCrewAmount;
+        totalHabitatText.text = "Total Habitat : "+4;
     }
 }

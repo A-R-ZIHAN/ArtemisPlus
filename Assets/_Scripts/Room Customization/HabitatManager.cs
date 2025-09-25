@@ -1,45 +1,133 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 
-public class HabitatManager : MonoBehaviour {
+public class HabitatManager : MonoBehaviour
+{
     public List<RoomInfo> rooms = new List<RoomInfo>();
-    public List<ZoningRule> rules = new List<ZoningRule>();
-    
-    public TextMeshProUGUI feedbackText;
 
-    private void Awake() {
-        //rooms.AddRange(FindObjectsOfType<RoomInfo>());
+    // Assign ScriptableObjects here
+    public List<AdjacencyRuleSO> adjacencyRulesSO = new List<AdjacencyRuleSO>();
+    public List<ConditionRuleSO> conditionRulesSO = new List<ConditionRuleSO>();
+
+    public TextMeshProUGUI feedbackText;
+    public TextMeshProUGUI metaFeedbackText;  // duplicates / missing info
+
+    private Dictionary<(RoomType, RoomType), AdjacencyData> adjacencyLookup;
+
+    private void Awake()
+    {
+        // Auto collect rooms if not assigned
+        if (rooms.Count == 0)
+            rooms.AddRange(FindObjectsOfType<RoomInfo>());
+
+        // Build adjacency lookup
+        adjacencyLookup = new Dictionary<(RoomType, RoomType), AdjacencyData>();
+
+        foreach (var r in adjacencyRulesSO)
+        {
+            var data = new AdjacencyData(r.relation, r.cause);
+            adjacencyLookup[(r.roomA, r.roomB)] = data;
+            adjacencyLookup[(r.roomB, r.roomA)] = data; // symmetric
+        }
     }
-    public void ValidateAndShow() {
+
+    public void ValidateAndShow()
+    {
         string result = ValidateHabitat();
         feedbackText.text = result;
+        
+        string metaResult = ValidateMeta();
+        metaFeedbackText.text = metaResult;
     }
 
-    private string ValidateHabitat() {
-        List<string> errors = new List<string>();
+    public string ValidateHabitat()
+    {
+        List<string> feedback = new List<string>();
 
-        foreach (var rule in rules) {
-            foreach (var room in rooms) {
-                if (room.selectedType == rule.requiredRoom) {
-                    bool hasNeighbor = false;
+        // Adjacency check
+        foreach (var room in rooms)
+        {
+            foreach (var neighbor in room.neighbors)
+            {
+                if (neighbor == null) continue;
 
-                    foreach (var neighbor in room.neighbors) {
-                        if (neighbor != null && neighbor.selectedType == rule.neighborRoom) {
-                            hasNeighbor = true;
-                            if (!rule.mustBeAdjacent) {
-                                errors.Add($"{room.roomId} ({room.selectedType}) cannot be next to {neighbor.roomId} ({neighbor.selectedType})");
-                            }
-                        }
-                    }
+                // Avoid duplicate reporting
+                if (string.Compare(room.roomId, neighbor.roomId) >= 0)
+                    continue;
 
-                    if (rule.mustBeAdjacent && !hasNeighbor) {
-                        errors.Add($"{room.roomId} ({room.selectedType}) must be next to {rule.neighborRoom}, but isn’t.");
+                var key = (room.selectedType, neighbor.selectedType);
+                if (adjacencyLookup.TryGetValue(key, out var data))
+                {
+                    string baseMsg = $"{room.selectedType} ({room.roomId}) is next to {neighbor.selectedType} ({neighbor.roomId})";
+                    switch (data.relation)
+                    {
+                        case RoomRelation.Good: feedback.Add($" {baseMsg} is GOOD. Cause: {data.cause}"); break;
+                        case RoomRelation.Risky: feedback.Add($" {baseMsg} is RISKY. Cause: {data.cause}"); break;
+                        case RoomRelation.Wrong: feedback.Add($" {baseMsg} is WRONG. Cause: {data.cause}"); break;
                     }
                 }
             }
         }
 
-        return errors.Count == 0 ? "✅ Habitat layout valid!" : string.Join("\n", errors);
+        // Special condition rules
+        foreach (var rule in conditionRulesSO)
+        {
+            var roomA = rooms.Find(r => r.selectedType == rule.roomA);
+            var roomB = rooms.Find(r => r.selectedType == rule.roomB);
+
+            if (roomA == null || roomB == null) continue;
+
+            bool areNeighbors = System.Array.Exists(roomA.neighbors, n => n == roomB);
+            string baseMsg = $"{roomA.selectedType} ({roomA.roomId}) and {roomB.selectedType} ({roomB.roomId})";
+
+            if (rule.mustBeAdjacent && !areNeighbors)
+                feedback.Add($" {baseMsg} should be ADJACENT but isn’t. Cause: {rule.warningMessage}");
+            if (rule.mustNotBeAdjacent && areNeighbors)
+                feedback.Add($" {baseMsg} must NOT be adjacent. Cause: {rule.warningMessage}");
+            if (rule.mustBeCentral)
+            {
+                int total = rooms.Count;
+                int connected = roomA.neighbors.Length;
+                if (connected < total / 2)
+                    feedback.Add($" {roomA.selectedType} ({roomA.roomId}) should be in central, accessible from all compartments. Cause: {rule.warningMessage}");
+            }
+        }
+
+        return feedback.Count == 0 ? " Habitat layout valid!" : string.Join("\n", feedback);
+    }
+    
+    public string ValidateMeta()
+    {
+        List<string> metaFeedback = new List<string>();
+
+        // Count how many of each type exist
+        var grouped = rooms.GroupBy(r => r.selectedType);
+
+        // Check duplicates (but skip None)
+        foreach (var g in grouped)
+        {
+            if (g.Key == RoomType.None) continue;
+
+            if (g.Count() > 1)
+                metaFeedback.Add($"Multiple {g.Key} rooms found: {g.Count()} instances.");
+        }
+
+        // Check unassigned rooms
+        int unassignedCount = rooms.Count(r => r.selectedType == RoomType.None);
+        if (unassignedCount > 0)
+            metaFeedback.Add($"{unassignedCount} room(s) are unassigned (RoomType.None).");
+
+        // Check missing types (all except None)
+        foreach (RoomType type in System.Enum.GetValues(typeof(RoomType)))
+        {
+            if (type == RoomType.None) continue;
+
+            if (!rooms.Any(r => r.selectedType == type))
+                metaFeedback.Add($"No {type} assigned in the habitat.");
+        }
+
+        return metaFeedback.Count == 0 ? "All room types properly assigned." : string.Join("\n", metaFeedback);
     }
 }
