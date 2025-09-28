@@ -13,12 +13,22 @@ public class MenuUI : MonoBehaviour
     [SerializeField] private GameObject inGameCanvas;
     [SerializeField] private GameObject habitatSelectionPanel;
     [SerializeField] private GameObject missionDataSelectionPanel;
+    [SerializeField] private GameObject habitatCanvas;
+
+    [SerializeField] private GameObject habitatMapPanel;
+    [SerializeField] private GameObject colonyMapPanel;
+    [SerializeField] private GameObject moonSurfaceMapPanel;
     
     [Header("Buttons")]
     [SerializeField] private List<Button> habitatButtons;
     [SerializeField] private Button exploreButton;
     [SerializeField] private Button applyHabitatSelectionButton;
     [SerializeField] private Button applyMissionDataButton;
+    [SerializeField] private Button habitatInfoButton;
+
+    [SerializeField] private Button habitatMapButton;
+    [SerializeField] private Button colonyMapButton;
+    [SerializeField] private Button moonSurfaceMapButton;
     
     [Header("Drop Downs")]
     [SerializeField] private TMP_Dropdown colonyCrewDropDown;
@@ -74,6 +84,12 @@ public class MenuUI : MonoBehaviour
             int index = i + 1;
             habitatButtons[i].onClick.AddListener(() => SelectHabitat(index));
         }
+        
+        habitatInfoButton.onClick.AddListener(ToggleHabitatCanvas);
+        
+        habitatMapButton.onClick.AddListener(ToggleHabitatMap);
+        colonyMapButton.onClick.AddListener(ToggleColonyMap);
+        moonSurfaceMapButton.onClick.AddListener(ToggleMoonSurfaceMap);
 
         // for (int i = 0; i < habitatQuantityButtons.Count && i < _qtyMap.Length; i++)
         // {
@@ -127,10 +143,51 @@ public class MenuUI : MonoBehaviour
         missionDataSelectionPanel.SetActive(false);
         mainMenuCanvas.SetActive(false);
         inGameCanvas.SetActive(true);
+        GameManager.Instance.ToggleHabitatViewCamera(false);
         
         missionLocationText.text = "Mission Location : "+GameManager.Instance.missionLocation;
         missionDurationText.text = "Mission Duration : "+GameManager.Instance.missionDuration;
         totalCrewAmountText.text = "Total Crew : "+GameManager.Instance.missionCrewAmount;
         totalHabitatText.text = "Total Habitat : "+4;
+        
+        habitatCanvas = GameManager.Instance.habitatManagers[3].canvas;
     }
+
+    public void ToggleHabitatCanvas()
+    {
+        habitatCanvas.SetActive(!habitatCanvas.activeSelf);
+    }
+
+    public void ToggleHabitatMap()
+    {
+        habitatMapPanel.SetActive(!habitatMapPanel.activeSelf);
+
+        if (habitatMapPanel.activeSelf)
+        {
+            foreach (var manager in GameManager.Instance.habitatManagers)
+            {
+                manager.mapCanvas.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var manager in GameManager.Instance.habitatManagers)
+            {
+                manager.mapCanvas.SetActive(false);
+            }
+        }
+
+    }
+    
+    public void ToggleColonyMap()
+    {
+        colonyMapPanel.SetActive(!colonyMapPanel.activeSelf);
+    }
+    
+    public void ToggleMoonSurfaceMap()
+    {
+        moonSurfaceMapPanel.SetActive(!moonSurfaceMapPanel.activeSelf);
+    }
+    
+    
 }

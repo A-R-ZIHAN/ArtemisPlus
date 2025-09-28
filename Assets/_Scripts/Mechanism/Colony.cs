@@ -19,9 +19,11 @@ public class Colony : MonoBehaviour
 
     private void PopulateColonyHabitat()
     {
+        GameManager.Instance.habitatManagers.Clear();
         for (int i = 0; i < qty; i++)
         {
             GameObject habitat = Instantiate(habitatPrefab, habitatSpawnPoints[i].position, habitatSpawnPoints[i].rotation, transform);
+            GameManager.Instance.habitatManagers.Add(habitat.GetComponent<HabitatManager>());
             habitat.transform.SetParent(habitatParent.transform);
         }
     }

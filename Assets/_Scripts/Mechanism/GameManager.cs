@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
 {
     public Camera surfaceCamera;
     public Camera habitatViewCamera;
+
+    public List<HabitatManager> habitatManagers;
     
     public int selectedHabitatNo;
     
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
     public int missionCrewAmount = 4;
     public string missionDuration = "Short - 60 days";
     public string missionLocation = "Moon";
+
+    public Camera uiCam;
 
     public override void Awake()
     {

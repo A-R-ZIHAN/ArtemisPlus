@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEngine.UI;
 
 public class HabitatManager : MonoBehaviour
 {
@@ -11,13 +12,40 @@ public class HabitatManager : MonoBehaviour
     public List<AdjacencyRuleSO> adjacencyRulesSO = new List<AdjacencyRuleSO>();
     public List<ConditionRuleSO> conditionRulesSO = new List<ConditionRuleSO>();
 
+    public GameObject canvas;
+    public GameObject mapCanvas;
     public TextMeshProUGUI feedbackText;
     public TextMeshProUGUI metaFeedbackText;  // duplicates / missing info
 
     private Dictionary<(RoomType, RoomType), AdjacencyData> adjacencyLookup;
+    
+    private void OnEnable()
+    {
+        HabitatSync.OnRoomTypeChanged += ApplySync;
+    }
+
+    private void OnDisable()
+    {
+        HabitatSync.OnRoomTypeChanged -= ApplySync;
+    }
+    private void ApplySync(string roomId, RoomType type)
+    {
+        // Find the room in THIS habitat
+        var room = rooms.Find(r => r.roomId == roomId);
+        if (room != null && room.selectedType != type)
+        {
+            // Update silently (without re-triggering dropdown event)
+            room.selectedType = type;
+            room.dropdown.value = (int)type;
+        }
+    }
 
     private void Awake()
     {
+        foreach (RoomInfo room in rooms)
+        {
+            room.canvas.GetComponent<Canvas>().worldCamera = GameManager.Instance.uiCam;
+        }
         // Auto collect rooms if not assigned
         if (rooms.Count == 0)
             rooms.AddRange(FindObjectsOfType<RoomInfo>());

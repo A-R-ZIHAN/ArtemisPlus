@@ -28,7 +28,10 @@ public class RoomInfo : MonoBehaviour {
     public string roomId;
     public TMP_Text roomNo;
     public TMP_Text roomName;
+    public TMP_Text roomNameMap;
     public TMP_Dropdown dropdown;
+    
+    public GameObject canvas;
 
 
     public RoomType selectedType = RoomType.None;
@@ -51,12 +54,17 @@ public class RoomInfo : MonoBehaviour {
         
         roomNo.text = roomId;
         roomName.text = selectedType.ToString();
+        roomNameMap.text = selectedType.ToString();
     }
 
     void OnDropdownChanged(int index) {
         selectedType = (RoomType)index;
         roomName.text = selectedType.ToString();
+        roomNameMap.text = selectedType.ToString();
         FindObjectOfType<HabitatManager>().ValidateAndShow();
+        
+        // Update global sync
+        HabitatSync.SetRoomType(roomId, selectedType);
     }
     
 }
