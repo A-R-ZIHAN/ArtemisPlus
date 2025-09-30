@@ -65,6 +65,9 @@ public class MenuUI : MonoBehaviour
         exploreButton.onClick.AddListener( () =>
         {
             exploreButton.gameObject.SetActive(false);
+            
+            GameFlow.Instance.storyManager.StartStory("Beginning");
+            
             habitatSelectionPanel.SetActive(true);
             GameManager.Instance.ToggleSurfaceCamera(false);
             GameManager.Instance.ToggleHabitatViewCamera(true);

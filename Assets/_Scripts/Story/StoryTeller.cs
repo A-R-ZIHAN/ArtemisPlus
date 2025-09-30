@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StoryTeller : MonoBehaviour
@@ -15,6 +16,12 @@ public class StoryTeller : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
+    
+    [Header("Events")]
+    public UnityEvent onStoryStart;
+    public UnityEvent onStoryEnd;
+    public UnityEvent<int> onLineChanged; // gives current line index
+    
 
     private StoryData storyData;
     private int currentLineIndex;
@@ -44,6 +51,11 @@ public class StoryTeller : MonoBehaviour
         skipButton.onClick.RemoveAllListeners();
         nextButton.onClick.AddListener(OnNextClicked);
         skipButton.onClick.AddListener(OnSkipClicked);
+        
+        // Fire global start event
+        onStoryStart?.Invoke();
+        // Fire per-story start event
+        storyData.onStoryStart?.Invoke();
     }
 
     void ShowCurrentLine()
@@ -56,6 +68,9 @@ public class StoryTeller : MonoBehaviour
         speakerPortrait.sprite = line.portrait;
 
         typingCoroutine = StartCoroutine(TypeText(line.dialogue));
+        
+        // Fire line changed event
+        onLineChanged?.Invoke(currentLineIndex);
     }
 
     IEnumerator TypeText(string text)
@@ -92,14 +107,26 @@ public class StoryTeller : MonoBehaviour
             else
             {
                 Debug.Log("Story finished!");
+                EndStory();
                 storyPanel.SetActive(false);
             }
         }
+    }
+    
+    void EndStory()
+    {
+        Debug.Log("Story finished!");
+        storyPanel.SetActive(false);
+
+        // Fire global end event
+        onStoryEnd?.Invoke();
+        // Fire per-story end event
+        storyData.onStoryEnd?.Invoke();
     }
 
     void OnSkipClicked()
     {
         Debug.Log("Story skipped!");
-        storyPanel.SetActive(false);
+        EndStory();
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caaf154525150a0419c2f92c2878e153, type: 3}
   m_Name: NewStory
   m_EditorClassIdentifier: 
+  storyID: Intro
   lines:
   - speakerName: Commandar
     dialogue: Hello Guys ! Kemon acho shobai?
@@ -22,3 +23,9 @@ MonoBehaviour:
   - speakerName: Commandar
     dialogue: Ha ! Ami Valo achi :) Ki koro? Din kemon jasse?
     portrait: {fileID: -660840104, guid: 73309c2c241ebf546b448f55b994b9dd, type: 3}
+  onStoryStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onStoryEnd:
+    m_PersistentCalls:
+      m_Calls: []
