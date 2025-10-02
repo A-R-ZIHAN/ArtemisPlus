@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
     public Transform greenHousePlayerSpawnPosition;
     public Transform habitatPlayerSpawnPosition;
     public Transform roverStoragePlayerSpawnPosition;
+    public Transform solarPanelPlayerSpawnPosition;
 
     public bool allGreenHouseReady = false;
 

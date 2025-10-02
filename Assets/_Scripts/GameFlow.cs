@@ -75,6 +75,9 @@ public class GameFlow : MonoBehaviourSingleton<GameFlow>
                 GameManager.Instance.TeleportPlayer(GameManager.Instance.habitatPlayerSpawnPosition);
                 //StartCoroutine(DelayedHazard());
                 break;
+            case "SolarPanelClearDone":
+                GameManager.Instance.TeleportPlayer(GameManager.Instance.habitatPlayerSpawnPosition);
+                break;
         }
     }
 
