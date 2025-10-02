@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class StoryTeller : MonoBehaviour
 {
+    // 1️⃣ ADD THESE TWO LINES ONLY
+    public static System.Action<StoryData> StoryStarted;
+    public static System.Action<StoryData> StoryEnded;
+    
     [Header("UI References")]
     public GameObject storyPanel;
     [SerializeField] private TMP_Text storyText;
@@ -16,31 +20,12 @@ public class StoryTeller : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
-    
-    [Header("Events")]
-    public UnityEvent onStoryStart;
-    public UnityEvent onStoryEnd;
-    public UnityEvent<int> onLineChanged; // gives current line index
-    
 
     private StoryData storyData;
     private int currentLineIndex;
     private Coroutine typingCoroutine;
     private bool isTyping;
-
-    // void Start()
-    // {
-    //     if (storyData == null || storyData.lines.Length == 0)
-    //     {
-    //         Debug.LogWarning("No story data assigned!");
-    //         return;
-    //     }
-    //
-    //     nextButton.onClick.AddListener(OnNextClicked);
-    //     skipButton.onClick.AddListener(OnSkipClicked);
-    //
-    //     ShowCurrentLine();
-    // }
+    
     public void BeginStory(StoryData data, int startIndex = 0)
     {
         storyData = data;
@@ -52,10 +37,8 @@ public class StoryTeller : MonoBehaviour
         nextButton.onClick.AddListener(OnNextClicked);
         skipButton.onClick.AddListener(OnSkipClicked);
         
-        // Fire global start event
-        onStoryStart?.Invoke();
-        // Fire per-story start event
-        storyData.onStoryStart?.Invoke();
+        // 2️⃣ ADD THIS LINE (story really starts here)
+        StoryStarted?.Invoke(storyData);
     }
 
     void ShowCurrentLine()
@@ -68,9 +51,6 @@ public class StoryTeller : MonoBehaviour
         speakerPortrait.sprite = line.portrait;
 
         typingCoroutine = StartCoroutine(TypeText(line.dialogue));
-        
-        // Fire line changed event
-        onLineChanged?.Invoke(currentLineIndex);
     }
 
     IEnumerator TypeText(string text)
@@ -115,13 +95,11 @@ public class StoryTeller : MonoBehaviour
     
     void EndStory()
     {
+        // 3️⃣ ADD THIS LINE (story really ends here)
+        StoryEnded?.Invoke(storyData);
+        
         Debug.Log("Story finished!");
         storyPanel.SetActive(false);
-
-        // Fire global end event
-        onStoryEnd?.Invoke();
-        // Fire per-story end event
-        storyData.onStoryEnd?.Invoke();
     }
 
     void OnSkipClicked()

@@ -20,6 +20,15 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
     public string missionLocation = "Moon";
 
     public Camera uiCam;
+    
+    public MenuUI menuUI;
+
+    public Transform player;
+    public Transform greenHousePlayerSpawnPosition;
+    public Transform habitatPlayerSpawnPosition;
+    public Transform roverStoragePlayerSpawnPosition;
+
+    public bool allGreenHouseReady = false;
 
     public override void Awake()
     {
@@ -42,5 +51,21 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
     {
         GameObject habitatPrefab = habitatsPrefabs[selectedHabitatNo-1];
         colonyTemplate.ReInitializeColonyhabitat(habitatPrefab);
+    }
+    
+    public void TeleportPlayer(Transform target)
+    {
+        if (player != null && target != null)
+        {
+            CharacterController cc = player.GetComponent<CharacterController>();
+            
+            // Temporarily disable to avoid physics weirdness
+            if (cc != null) cc.enabled = false;
+            
+            player.position = target.position;
+            player.rotation = target.rotation; // optional — align facing direction
+            
+            if (cc != null) cc.enabled = true;
+        }
     }
 }

@@ -65,15 +65,28 @@ namespace StarterAssets
 		{
 			sprint = newSprintState;
 		}
-
+		
+		private void Update()
+		{
+			// Toggle with Escape key
+			if (Input.GetKeyDown(KeyCode.LeftAlt))
+			{
+				cursorLocked = !cursorLocked;
+				cursorInputForLook = cursorLocked; // disable look when unlocked
+				SetCursorState(cursorLocked);
+			}
+		}
+		
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
 		}
 
+
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+			Cursor.visible = !newState;
 		}
 	}
 	

@@ -9,10 +9,6 @@ public class StoryManager : MonoBehaviour
     [SerializeField] private StoryTeller storyteller;
     [SerializeField] private StoryData[] allStories;
     
-    [Header("Global Events")]
-    public UnityEvent<string> onAnyStoryStart;
-    public UnityEvent<string> onAnyStoryEnd;
-    
 
     private StoryData currentStory;
     private int currentIndex = 0;
@@ -41,11 +37,6 @@ public class StoryManager : MonoBehaviour
 
         currentIndex = startIndex;
         storyteller.storyPanel.SetActive(true);
-        
-        // Hook storyteller events so manager knows when things happen
-        storyteller.onStoryStart.AddListener(OnStoryStarted);
-        storyteller.onStoryEnd.AddListener(OnStoryEnded);
-        
         storyteller.BeginStory(currentStory, currentIndex);
     }
     
@@ -62,22 +53,5 @@ public class StoryManager : MonoBehaviour
     public void UpdateProgress(int newIndex)
     {
         currentIndex = newIndex;
-    }
-    
-    
-    private void OnStoryStarted()
-    {
-        // Fire global manager event
-        //onAnyStoryStart?.Invoke(currentStory);
-    }
-
-    private void OnStoryEnded()
-    {
-        // Fire global manager event
-        //onAnyStoryEnd?.Invoke(currentStory);
-
-        // Unsubscribe to avoid stacking listeners
-        storyteller.onStoryStart.RemoveListener(OnStoryStarted);
-        storyteller.onStoryEnd.RemoveListener(OnStoryEnded);
     }
 }

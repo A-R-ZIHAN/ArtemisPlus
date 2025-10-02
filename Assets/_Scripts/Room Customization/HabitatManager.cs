@@ -73,6 +73,14 @@ public class HabitatManager : MonoBehaviour
     public string ValidateHabitat()
     {
         List<string> feedback = new List<string>();
+        
+        // 🔍 Check if all rooms are assigned
+        if (rooms.Any(r => r.selectedType == RoomType.None))
+        {
+            feedback.Add("Not all rooms are assigned a type. Habitat layout cannot be validated yet.");
+            return string.Join("\n", feedback);
+        }
+        
 
         // Adjacency check
         foreach (var room in rooms)
@@ -123,7 +131,17 @@ public class HabitatManager : MonoBehaviour
             }
         }
 
-        return feedback.Count == 0 ? " Habitat layout valid!" : string.Join("\n", feedback);
+        //return feedback.Count == 0 ? " Habitat layout valid!" : string.Join("\n", feedback);
+        // ✅ Only valid if feedback is empty AND no rooms are None
+        if (feedback.Count == 0)
+        {
+            Debug.Log("✅ Habitat is fully assigned and layout is valid!");
+            GameFlow.Instance.EndMission();
+            GameFlow.Instance.storyManager.StartStory("FourthMission");
+            return "Habitat layout valid!";
+        }
+
+        return string.Join("\n", feedback);
     }
     
     public string ValidateMeta()
@@ -158,4 +176,5 @@ public class HabitatManager : MonoBehaviour
 
         return metaFeedback.Count == 0 ? "All room types properly assigned." : string.Join("\n", metaFeedback);
     }
+    
 }

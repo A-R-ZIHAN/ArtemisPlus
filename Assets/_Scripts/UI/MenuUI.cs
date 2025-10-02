@@ -11,13 +11,14 @@ public class MenuUI : MonoBehaviour
     [Header("UI Panels")] 
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject inGameCanvas;
-    [SerializeField] private GameObject habitatSelectionPanel;
-    [SerializeField] private GameObject missionDataSelectionPanel;
+    public GameObject habitatSelectionPanel;
+    public GameObject missionDataSelectionPanel;
     [SerializeField] private GameObject habitatCanvas;
 
     [SerializeField] private GameObject habitatMapPanel;
     [SerializeField] private GameObject colonyMapPanel;
     [SerializeField] private GameObject moonSurfaceMapPanel;
+    [SerializeField] private GameObject greenHouseControlPanel;
     
     [Header("Buttons")]
     [SerializeField] private List<Button> habitatButtons;
@@ -44,6 +45,8 @@ public class MenuUI : MonoBehaviour
     [SerializeField] private TMP_Text totalCrewAmountText;
     [SerializeField] private TMP_Text totalHabitatText;
     
+    private bool _hazardFlag = true;
+    
 
     private void Awake()
     {
@@ -66,17 +69,15 @@ public class MenuUI : MonoBehaviour
         {
             exploreButton.gameObject.SetActive(false);
             
-            GameFlow.Instance.storyManager.StartStory("Beginning");
-            
-            habitatSelectionPanel.SetActive(true);
-            GameManager.Instance.ToggleSurfaceCamera(false);
-            GameManager.Instance.ToggleHabitatViewCamera(true);
+            GameFlow.Instance.storyManager.StartStory("Intro");
         });
 
         applyHabitatSelectionButton.onClick.AddListener(() =>
         {
             habitatSelectionPanel.SetActive(false);
-            missionDataSelectionPanel.SetActive(true);
+            
+            GameFlow.Instance.EndMission();
+            GameFlow.Instance.storyManager.StartStory("SecondMission");
         });
         
         //applyScaleButton.onClick.AddListener(ApplyScale);
@@ -154,6 +155,8 @@ public class MenuUI : MonoBehaviour
         totalHabitatText.text = "Total Habitat : "+4;
         
         habitatCanvas = GameManager.Instance.habitatManagers[3].canvas;
+        GameFlow.Instance.EndMission();
+        GameFlow.Instance.storyManager.StartStory("ThirdMission");
     }
 
     public void ToggleHabitatCanvas()
@@ -191,6 +194,13 @@ public class MenuUI : MonoBehaviour
     {
         moonSurfaceMapPanel.SetActive(!moonSurfaceMapPanel.activeSelf);
     }
-    
-    
+
+    public void CloseGreenHouseControlPanel()
+    {
+        if (GameManager.Instance.allGreenHouseReady && _hazardFlag)
+        {
+            _hazardFlag = false;
+            HazardUIManager.Instance.TriggerTestHazard();
+        }
+    }
 }

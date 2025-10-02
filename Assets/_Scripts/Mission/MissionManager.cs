@@ -55,7 +55,7 @@ public class MissionManager : MonoBehaviour
         missionPanel.SetActive(true);
         hudPanel.SetActive(false);
 
-        missionTitleText.text = mission.title;
+        missionTitleText.text = "(Mission 0"+(index+1)+") "+mission.title;
         missionDescriptionText.text = mission.description;
         startButton.gameObject.SetActive(true);
 
@@ -70,7 +70,7 @@ public class MissionManager : MonoBehaviour
         mission.isActive = true;
 
         hudPanel.SetActive(true);
-        hudTitleText.text = mission.title;
+        hudTitleText.text = "(Mission 0"+(currentMissionIndex+1)+") "+mission.title;
         hudDescriptionText.text = mission.description;
 
         startButton.gameObject.SetActive(false);
@@ -95,17 +95,19 @@ public class MissionManager : MonoBehaviour
         
         // 🔥 Fire complete event
         mission.OnMissionCompleted?.Invoke();
+        
+        missionPanel.SetActive(false);
 
-        int nextIndex = currentMissionIndex + 1;
-        if (nextIndex < missions.Length)
-        {
-            LoadMission(nextIndex);
-        }
-        else
-        {
-            Debug.Log("All missions completed!");
-            missionPanel.SetActive(false);
-        }
+        // int nextIndex = currentMissionIndex + 1;
+        // if (nextIndex < missions.Length)
+        // {
+        //     LoadMission(nextIndex);
+        // }
+        // else
+        // {
+        //     Debug.Log("All missions completed!");
+        //     missionPanel.SetActive(false);
+        // }
     }
 
     private void UpdateMissionListUI(int index, string status)
