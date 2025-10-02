@@ -15,7 +15,7 @@ MonoBehaviour:
   storyID: GreenHouseDone
   lines:
   - speakerName: Commandar
-    dialogue: Well done ! Green House is done!
+    dialogue: Well done ! Green House food selection is done!
     portrait: {fileID: -660840104, guid: 73309c2c241ebf546b448f55b994b9dd, type: 3}
   - speakerName: Engineer
     dialogue: Thank you!

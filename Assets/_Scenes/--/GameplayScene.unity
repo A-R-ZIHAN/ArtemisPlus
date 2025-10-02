@@ -26902,9 +26902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missions:
   - title: Habitat Layout
-    description: "Build the base by dragging modules. The system enforces habitability
-      rules. Put comms too close to bunks? Artemis+ flags \u2018Crew fatigue risk\u2019
-      and explains why. It teaches by consequences, not text."
+    description: Choose Your habitat layout
     isActive: 0
     isCompleted: 0
     OnMissionStarted:
@@ -26925,8 +26923,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - title: Habitat Customization
-    description: "Pick crew size and mission length. Every choice instantly changes
-      resource needs \u2014 you\u2019re not guessing, you\u2019re seeing the consequences."
+    description: Customize your habitat following rules
     isActive: 0
     isCompleted: 0
     OnMissionStarted:
@@ -33194,11 +33191,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: MoveSpeed
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: SprintSpeed
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: GroundLayers.m_Bits

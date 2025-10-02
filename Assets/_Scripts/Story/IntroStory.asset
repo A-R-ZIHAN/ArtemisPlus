@@ -15,11 +15,12 @@ MonoBehaviour:
   storyID: Intro
   lines:
   - speakerName: Commandar
-    dialogue: Tomar kaj ki jano??
+    dialogue: Welcome to the Moon Habitat Simulation! You will have to select habitat
+      layout!
     portrait: {fileID: -660840104, guid: 73309c2c241ebf546b448f55b994b9dd, type: 3}
   - speakerName: Engineer
-    dialogue: Ha habitat layout select korte hobe!
+    dialogue: Yes , i will choose my preferred habitat layout!
     portrait: {fileID: 89795930, guid: 73309c2c241ebf546b448f55b994b9dd, type: 3}
   - speakerName: Commandar
-    dialogue: Ha koro!!!!!!!!!!!
+    dialogue: Yes go ahead!
     portrait: {fileID: -660840104, guid: 73309c2c241ebf546b448f55b994b9dd, type: 3}
