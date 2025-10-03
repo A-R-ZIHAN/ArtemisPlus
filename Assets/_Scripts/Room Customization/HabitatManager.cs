@@ -63,35 +63,44 @@ public class HabitatManager : MonoBehaviour
 
     public void ValidateAndShow()
     {
-        string result = ValidateHabitat();
-        feedbackText.text = result;
-        
+        string habitatResult = ValidateHabitat();
         string metaResult = ValidateMeta();
+
+        feedbackText.text = habitatResult;
         metaFeedbackText.text = metaResult;
+
+        // Check: All rooms assigned
+        bool allAssigned = !rooms.Any(r => r.selectedType == RoomType.None);
+
+        // Check: No duplicates
+        bool noDuplicates = !rooms.GroupBy(r => r.selectedType)
+            .Any(g => g.Key != RoomType.None && g.Count() > 1);
+
+        // Final verdict
+        if (allAssigned && noDuplicates) //                         && habitatResult == "Habitat layout valid!" 
+            //&& metaResult == "All room types properly assigned."
+        {
+            Debug.Log("✅ Habitat is fully assigned, no duplicates, and layout is valid!");
+            GameFlow.Instance.EndMission();
+            GameFlow.Instance.storyManager.StartStory("FourthMission");
+        }
     }
+
 
     public string ValidateHabitat()
     {
         List<string> feedback = new List<string>();
-        
-        // 🔍 Check if all rooms are assigned
-        if (rooms.Any(r => r.selectedType == RoomType.None))
-        {
-            feedback.Add("Not all rooms are assigned a type. Habitat layout cannot be validated yet.");
-            return string.Join("\n", feedback);
-        }
-        
 
-        // Adjacency check
+        if (rooms.Any(r => r.selectedType == RoomType.None))
+            feedback.Add("Not all rooms are assigned a type.");
+
+        // 🔍 adjacency rules
         foreach (var room in rooms)
         {
             foreach (var neighbor in room.neighbors)
             {
                 if (neighbor == null) continue;
-
-                // Avoid duplicate reporting
-                if (string.Compare(room.roomId, neighbor.roomId) >= 0)
-                    continue;
+                if (string.Compare(room.roomId, neighbor.roomId) >= 0) continue;
 
                 var key = (room.selectedType, neighbor.selectedType);
                 if (adjacencyLookup.TryGetValue(key, out var data))
@@ -99,7 +108,7 @@ public class HabitatManager : MonoBehaviour
                     string baseMsg = $"{room.selectedType} ({room.roomId}) is next to {neighbor.selectedType} ({neighbor.roomId})";
                     switch (data.relation)
                     {
-                        case RoomRelation.Good: feedback.Add($" {baseMsg} is GOOD. Cause: {data.cause}"); break;
+                        case RoomRelation.Good:  feedback.Add($" {baseMsg} is GOOD. Cause: {data.cause}"); break;
                         case RoomRelation.Risky: feedback.Add($" {baseMsg} is RISKY. Cause: {data.cause}"); break;
                         case RoomRelation.Wrong: feedback.Add($" {baseMsg} is WRONG. Cause: {data.cause}"); break;
                     }
@@ -107,7 +116,7 @@ public class HabitatManager : MonoBehaviour
             }
         }
 
-        // Special condition rules
+        // 🔍 condition rules
         foreach (var rule in conditionRulesSO)
         {
             var roomA = rooms.Find(r => r.selectedType == rule.roomA);
@@ -127,22 +136,13 @@ public class HabitatManager : MonoBehaviour
                 int total = rooms.Count;
                 int connected = roomA.neighbors.Length;
                 if (connected < total / 2)
-                    feedback.Add($" {roomA.selectedType} ({roomA.roomId}) should be in central, accessible from all compartments. Cause: {rule.warningMessage}");
+                    feedback.Add($" {roomA.selectedType} ({roomA.roomId}) should be central. Cause: {rule.warningMessage}");
             }
         }
 
-        //return feedback.Count == 0 ? " Habitat layout valid!" : string.Join("\n", feedback);
-        // ✅ Only valid if feedback is empty AND no rooms are None
-        if (feedback.Count == 0)
-        {
-            Debug.Log("✅ Habitat is fully assigned and layout is valid!");
-            GameFlow.Instance.EndMission();
-            GameFlow.Instance.storyManager.StartStory("FourthMission");
-            return "Habitat layout valid!";
-        }
-
-        return string.Join("\n", feedback);
+        return feedback.Count == 0 ? "Habitat layout valid!" : string.Join("\n", feedback);
     }
+
     
     public string ValidateMeta()
     {

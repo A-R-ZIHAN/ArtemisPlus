@@ -39,6 +39,7 @@ public class GreenhouseControlPanel : MonoBehaviour
     [Header("UI References")]
     public TMP_Dropdown[] rackDropdowns;
     public TMP_Text totalStatsText;
+    public TMP_Text quickStatsText;
 
     private Dictionary<CultivationElement, CropStats> cropDatabase = new Dictionary<CultivationElement, CropStats>();
 
@@ -146,6 +147,13 @@ public class GreenhouseControlPanel : MonoBehaviour
         {
             GameManager.Instance.allGreenHouseReady = true;
             OnAllRacksAssigned();
+        }
+        
+        // Short one-liner summary (average stats only)
+        if (quickStatsText != null)
+        {
+            quickStatsText.text =
+                $"Avg Yield: {avgYieldRack:F1} g/rack | O2: {avgO2:F1} L | Calories: {avgCalories:F1} kcal";
         }
     }
 

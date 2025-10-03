@@ -34,6 +34,7 @@ public class HazardUIManager : MonoBehaviour
     public void TriggerTestHazard()
     {
         TriggerHazard(testTitle, testDescription);
+        GameManager.Instance.batteryUI.TriggerSolarHazard();
     }
 
     void Awake()

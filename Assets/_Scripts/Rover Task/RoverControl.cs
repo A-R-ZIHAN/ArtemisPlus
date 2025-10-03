@@ -40,6 +40,7 @@ public class RoverControl : MonoBehaviour
                 deployButton.interactable = false;
             }
             GameFlow.Instance.EndMission();
+            GameManager.Instance.batteryUI.FixSolarHazard();
             GameFlow.Instance.storyManager.StartStory("SolarPanelClearDone");
         }
     }

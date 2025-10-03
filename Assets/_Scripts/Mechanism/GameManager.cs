@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourSingletonPersistent<GameManager>
     public Camera uiCam;
     
     public MenuUI menuUI;
+    public BatteryUI batteryUI;
 
     public Transform player;
     public Transform greenHousePlayerSpawnPosition;

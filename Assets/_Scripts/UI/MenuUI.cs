@@ -21,7 +21,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] private GameObject greenHouseControlPanel;
     
     [Header("Buttons")]
-    [SerializeField] private List<Button> habitatButtons;
+    public List<Button> habitatButtons;
     [SerializeField] private Button exploreButton;
     [SerializeField] private Button applyHabitatSelectionButton;
     [SerializeField] private Button applyMissionDataButton;
@@ -65,6 +65,7 @@ public class MenuUI : MonoBehaviour
 
     private void ButtonInit()
     {
+        applyHabitatSelectionButton.interactable = false;
         exploreButton.onClick.AddListener( () =>
         {
             exploreButton.gameObject.SetActive(false);
@@ -107,21 +108,21 @@ public class MenuUI : MonoBehaviour
         Debug.Log(colonyCrewDropDown.value);
         if (colonyCrewDropDown.value == 0)
         {
-            float scale = 1.2f;
+            float scale = 3f;
             habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
-            GameManager.Instance.missionCrewAmount = 4;
+            GameManager.Instance.missionCrewAmount = 4*4;
         }
         else if (colonyCrewDropDown.value == 1)
         {
-            float scale = 1.5f;
+            float scale = 3.5f;
             habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
-            GameManager.Instance.missionCrewAmount = 6;
+            GameManager.Instance.missionCrewAmount = 6*4;
         }
         else if (colonyCrewDropDown.value == 2)
         {
-            float scale = 1.8f;
+            float scale = 4f;
             habitatScaler.ScaleDirectChildren(new Vector3(scale, scale, scale));
-            GameManager.Instance.missionCrewAmount = 8;
+            GameManager.Instance.missionCrewAmount = 8*4;
         }
     }
     
@@ -136,8 +137,9 @@ public class MenuUI : MonoBehaviour
         GameManager.Instance.missionLocation = locationDropDown.options[locationDropDown.value].text;
     }
 
-    private void SelectHabitat(int num)
+    public void SelectHabitat(int num)
     {
+        applyHabitatSelectionButton.interactable = true;
         GameManager.Instance.selectedHabitatNo = num;
         GameManager.Instance.TriggerColony();
     }

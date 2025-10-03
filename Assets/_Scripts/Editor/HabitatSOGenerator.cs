@@ -133,6 +133,14 @@ public class HabitatSOGenerator
         CreateRule(RoomType.EmergencyLSS, RoomType.CrewQuarters, RoomRelation.Risky, "Daily-use zones may block backup.");
         CreateRule(RoomType.EmergencyLSS, RoomType.MedicalBay, RoomRelation.Wrong, "Must stay clear of high-contamination zones.");
         CreateRule(RoomType.EmergencyLSS, RoomType.Hygiene, RoomRelation.Wrong, "Must stay clear of high-contamination zones.");
+        
+        //Common Space
+        CreateRule(RoomType.CommonSpace, RoomType.ExitAirlock, RoomRelation.Risky, "Airlock dust and contaminants could spread into shared areas.");
+        CreateRule(RoomType.CommonSpace, RoomType.PowerStorage, RoomRelation.Good, "Central access to stored power supports daily activity.");
+        CreateRule(RoomType.CommonSpace, RoomType.Galley, RoomRelation.Good, "Close proximity makes mealtime more efficient and social.");
+        CreateRule(RoomType.CommonSpace, RoomType.CrewQuarters, RoomRelation.Good, "Encourages social interaction and easy transition to rest areas.");
+        CreateRule(RoomType.CommonSpace, RoomType.MedicalBay, RoomRelation.Good, "Quick access ensures emergencies are reachable from central hub.");
+        CreateRule(RoomType.CommonSpace, RoomType.Hygiene, RoomRelation.Good, "Shared location provides convenient access for all crew members.");
     }
 
     // ------------------ Condition Rules ------------------

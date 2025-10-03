@@ -15,7 +15,8 @@ public enum RoomType {
     RepairZone,
     ExitAirlock,
     Hygiene,
-    EmergencyLSS
+    EmergencyLSS,
+    CommonSpace
 }
 
 public enum RoomRelation {

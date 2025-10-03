@@ -70,6 +70,7 @@ public class GameFlow : MonoBehaviourSingleton<GameFlow>
                 break;
             case "FifthMission":
                 StartMission(4);
+                GameManager.Instance.batteryUI.TriggerConsumptionSpike(400f);
                 break;
             case "GreenHouseDone":
                 GameManager.Instance.TeleportPlayer(GameManager.Instance.habitatPlayerSpawnPosition);
@@ -77,6 +78,7 @@ public class GameFlow : MonoBehaviourSingleton<GameFlow>
                 break;
             case "SolarPanelClearDone":
                 GameManager.Instance.TeleportPlayer(GameManager.Instance.habitatPlayerSpawnPosition);
+                GameManager.Instance.batteryUI.TriggerConsumptionSpike(0f);
                 break;
         }
     }

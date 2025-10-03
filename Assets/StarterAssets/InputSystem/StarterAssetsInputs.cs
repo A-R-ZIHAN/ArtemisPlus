@@ -19,6 +19,13 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+		
+#if UNITY_WEBGL
+		void Start() {
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+		}
+#endif
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -85,8 +92,13 @@ namespace StarterAssets
 
 		private void SetCursorState(bool newState)
 		{
-			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+#if UNITY_WEBGL
+			// On WebGL, cursor can only be changed after user gesture
 			Cursor.visible = !newState;
+#else
+    Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    Cursor.visible = !newState;
+#endif
 		}
 	}
 	
