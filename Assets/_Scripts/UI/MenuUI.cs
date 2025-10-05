@@ -19,6 +19,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] private GameObject colonyMapPanel;
     [SerializeField] private GameObject moonSurfaceMapPanel;
     [SerializeField] private GameObject greenHouseControlPanel;
+    public GameObject instructionPanel;
     
     [Header("Buttons")]
     public List<Button> habitatButtons;

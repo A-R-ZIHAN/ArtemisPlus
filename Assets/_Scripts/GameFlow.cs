@@ -25,6 +25,7 @@ public class GameFlow : MonoBehaviourSingleton<GameFlow>
         {
             case "Intro":
                 Debug.Log("Intro story started!");
+                GameManager.Instance.menuUI.instructionPanel.SetActive(true);
                 break;
 
             case "SecondMission":
@@ -51,6 +52,7 @@ public class GameFlow : MonoBehaviourSingleton<GameFlow>
         switch (storyData.storyID)
         {
             case "Intro":
+                GameManager.Instance.menuUI.instructionPanel.SetActive(false);
                 GameManager.Instance.menuUI.habitatSelectionPanel.SetActive(true);
                 GameManager.Instance.ToggleSurfaceCamera(false);
                 GameManager.Instance.ToggleHabitatViewCamera(true);
