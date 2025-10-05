@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3b6bfccd513104abe18bdce24301a8, type: 3}
+  m_Name: InterirorLibrary
+  m_EditorClassIdentifier: 
+  entries:
+  - type: 11
+    prefab: {fileID: 919132149155446097, guid: df31e18f8e4f5e345abe7d778a3264a3, type: 3}
+  - type: 1
+    prefab: {fileID: 919132149155446097, guid: 7a3d251b2ebf677458fd17b2339e5f52, type: 3}
+  - type: 4
+    prefab: {fileID: 919132149155446097, guid: 6d8d7b5f2f4a7804db5a5d943a073125, type: 3}
+  - type: 5
+    prefab: {fileID: 919132149155446097, guid: d7374bdd5ddeb6e489aaec5ac6d0be72, type: 3}
+  - type: 12
+    prefab: {fileID: 919132149155446097, guid: cdf7b7b68bcd2b84ea6cacdd49fb8332, type: 3}
+  - type: 2
+    prefab: {fileID: 919132149155446097, guid: 2c1faab9805df16409e959ac3fafda5c, type: 3}
+  - type: 6
+    prefab: {fileID: 919132149155446097, guid: 9c5979ba132598a4bbc91eaf9654b04b, type: 3}

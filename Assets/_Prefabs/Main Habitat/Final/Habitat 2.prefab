@@ -3106,6 +3106,7 @@ MonoBehaviour:
   roomName: {fileID: 1065384388830560149}
   roomNameMap: {fileID: 9062090533080317139}
   dropdown: {fileID: 2358380047259691392}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 7755399337052394164}
   selectedType: 0
   neighbors:
@@ -5156,6 +5157,7 @@ MonoBehaviour:
   roomName: {fileID: 7840050542600994286}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 2082579452210725250}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 6623172442729829661}
   selectedType: 0
   neighbors:
@@ -9239,6 +9241,7 @@ MonoBehaviour:
   roomName: {fileID: 6956117462752718161}
   roomNameMap: {fileID: 7257734951679492936}
   dropdown: {fileID: 3729236087215854749}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 5409118858356590377}
   selectedType: 0
   neighbors:
@@ -19774,6 +19777,7 @@ MonoBehaviour:
   roomName: {fileID: 155425303425326918}
   roomNameMap: {fileID: 2474566422775108662}
   dropdown: {fileID: 7538057035389837515}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 8071988270243155249}
   selectedType: 0
   neighbors:
@@ -22328,6 +22332,7 @@ MonoBehaviour:
   roomName: {fileID: 7821286344545351375}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 2410457936588408969}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 8165607775703753349}
   selectedType: 0
   neighbors:
@@ -22681,6 +22686,7 @@ MonoBehaviour:
   roomName: {fileID: 1327941254122882432}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 1079993572638056409}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 4080933556629385349}
   selectedType: 0
   neighbors: []
@@ -25606,6 +25612,7 @@ MonoBehaviour:
   roomName: {fileID: 3995428921005739396}
   roomNameMap: {fileID: 4700751054626517620}
   dropdown: {fileID: 8450232536609398963}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 589570290713805094}
   selectedType: 0
   neighbors:
@@ -27339,6 +27346,7 @@ MonoBehaviour:
   roomName: {fileID: 9219751305265755975}
   roomNameMap: {fileID: 3992500533092106997}
   dropdown: {fileID: 4870015515109010345}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 2283729660121294228}
   selectedType: 0
   neighbors:
@@ -31103,6 +31111,7 @@ MonoBehaviour:
   roomName: {fileID: 4722642806840015694}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 8230361614788922977}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 1807743178408129621}
   selectedType: 0
   neighbors:
@@ -32696,6 +32705,7 @@ MonoBehaviour:
   roomName: {fileID: 6528217970075374285}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 395638857895873260}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 1397317104308702385}
   selectedType: 0
   neighbors:
@@ -33814,6 +33824,7 @@ MonoBehaviour:
   roomName: {fileID: 8708215716290988397}
   roomNameMap: {fileID: 849042897897269147}
   dropdown: {fileID: 181003532314222017}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 6709112686301944030}
   selectedType: 0
   neighbors:
@@ -35788,6 +35799,7 @@ MonoBehaviour:
   roomName: {fileID: 1600695613346233082}
   roomNameMap: {fileID: 7189564647465757429}
   dropdown: {fileID: 885563583075514396}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 3937514302009910468}
   selectedType: 0
   neighbors:
@@ -37120,6 +37132,7 @@ MonoBehaviour:
   roomName: {fileID: 5487765276581277531}
   roomNameMap: {fileID: 6186035536584090493}
   dropdown: {fileID: 8102544503239125285}
+  prefabLibrary: {fileID: 11400000, guid: ca9f6eb10fa865147a40ac0b592f6a95, type: 2}
   canvas: {fileID: 4224797322540879784}
   selectedType: 0
   neighbors:
