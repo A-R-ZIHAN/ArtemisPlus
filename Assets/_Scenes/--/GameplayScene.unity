@@ -7997,7 +7997,7 @@ MonoBehaviour:
   speakerPortrait: {fileID: 181520216}
   nextButton: {fileID: 1225110292}
   skipButton: {fileID: 1849765310}
-  typeSpeed: 0.05
+  typeSpeed: 0.001
 --- !u!114 &169420597
 MonoBehaviour:
   m_ObjectHideFlags: 0
